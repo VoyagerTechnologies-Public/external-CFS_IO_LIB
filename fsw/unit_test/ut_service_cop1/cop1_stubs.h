@@ -42,7 +42,7 @@ typedef struct
     uint16  (*TCTF_GetBypassFlag)(TCTF_Hdr_t *);
     uint16  (*TCTF_GetCtlCmdFlag)(TCTF_Hdr_t *);
     void    (*TCTF_CopyData)(uint8 *, TCTF_Hdr_t *, TCTF_ChannelService_t *);
-    boolean (*TCTF_IsValidTf)(TCTF_Hdr_t *, TCTF_ChannelService_t *);
+    bool (*TCTF_IsValidTf)(TCTF_Hdr_t *, TCTF_ChannelService_t *);
 } COP1_HookTable_t;
 
 

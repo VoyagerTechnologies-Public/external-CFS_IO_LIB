@@ -47,7 +47,7 @@ typedef struct
 
 void UDP_SetReturnCode(uint32 Index, int32 RtnVal, uint32 CallCnt);
 void UDP_SetFunctionHook(uint32 Index, void *FunPtr);
-boolean UDP_UseReturnCode(uint32 Index);
+bool UDP_UseReturnCode(uint32 Index);
 void UDP_Reset(void);
 
 #endif

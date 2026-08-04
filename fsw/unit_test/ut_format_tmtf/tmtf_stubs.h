@@ -32,7 +32,7 @@ typedef struct
 
 
 void    TMTF_SetReturnCode(uint32 Index, int32 RtnVal, uint32 CallCnt);
-boolean TMTF_UseReturnCode(uint32 Index);
+bool TMTF_UseReturnCode(uint32 Index);
 
 
 #endif

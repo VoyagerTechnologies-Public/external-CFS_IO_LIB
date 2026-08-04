@@ -545,7 +545,7 @@ void Test_TMTF_SetOcfFlag_True(void)
     testFramePtr->Id[1] = 0x00;
 
     /* Execute test */
-    actual = TMTF_SetOcfFlag(testFramePtr, TRUE);
+    actual = TMTF_SetOcfFlag(testFramePtr, true);
 
     /* Verify results */
     UtAssert_True(actual == expected, "return value == expected");
@@ -562,7 +562,7 @@ void Test_TMTF_SetOcfFlag_False(void)
     testFramePtr->Id[1] = 0xFF;
 
     /* Execute test */
-    actual = TMTF_SetOcfFlag(testFramePtr, FALSE);
+    actual = TMTF_SetOcfFlag(testFramePtr, false);
 
     /* Verify results */
     UtAssert_True(actual == expected, "return value == expected");
@@ -584,7 +584,7 @@ void Test_TMTF_SetSecHdrFlag_NullPtr(void)
     /* Setup inputs */
 
     /* Execute test */
-    actual = TMTF_SetSecHdrFlag(NULL, TRUE);
+    actual = TMTF_SetSecHdrFlag(NULL, true);
 
     /* Verify results */
     UtAssert_True(actual == expected, "return value == expected");
@@ -600,7 +600,7 @@ void Test_TMTF_SetSecHdrFlag_True(void)
     testFramePtr->DataFieldStatus[0] = 0x00;
 
     /* Execute test */
-    actual = TMTF_SetSecHdrFlag(testFramePtr, TRUE);
+    actual = TMTF_SetSecHdrFlag(testFramePtr, true);
 
     /* Verify results */
     UtAssert_True(actual == expected, "return value == expected");
@@ -617,7 +617,7 @@ void Test_TMTF_SetSecHdrFlag_False(void)
     testFramePtr->DataFieldStatus[0] = 0xFF;
 
     /* Execute test */
-    actual = TMTF_SetSecHdrFlag(testFramePtr, FALSE);
+    actual = TMTF_SetSecHdrFlag(testFramePtr, false);
 
     /* Verify results */
     UtAssert_True(actual == expected, "return value == expected");
@@ -639,7 +639,7 @@ void Test_TMTF_SetSyncFlag_NullPtr(void)
     /* Setup inputs */
 
     /* Execute test */
-    actual = TMTF_SetSyncFlag(NULL, TRUE);
+    actual = TMTF_SetSyncFlag(NULL, true);
 
     /* Verify results */
     UtAssert_True(actual == expected, "return value == expected");
@@ -655,7 +655,7 @@ void Test_TMTF_SetSyncFlag_True_PoFlgOn(void)
     testFramePtr->DataFieldStatus[0] = 0x20;  /* packet order flag = 1, seg length id = '00' */
 
     /* Execute test */
-    actual = TMTF_SetSyncFlag(testFramePtr, TRUE);
+    actual = TMTF_SetSyncFlag(testFramePtr, true);
 
     /* Verify results */
     UtAssert_True(actual == expected, "return value == expected");
@@ -672,7 +672,7 @@ void Test_TMTF_SetSyncFlag_True_PoFlgOff(void)
     testFramePtr->DataFieldStatus[0] = 0x00;  /* packet order flag = 0, seg length id = '00' */
 
     /* Execute test */
-    actual = TMTF_SetSyncFlag(testFramePtr, TRUE);
+    actual = TMTF_SetSyncFlag(testFramePtr, true);
 
     /* Verify results */
     UtAssert_True(actual == expected, "return value == expected");
@@ -689,7 +689,7 @@ void Test_TMTF_SetSyncFlag_False_PoFlgOn(void)
     testFramePtr->DataFieldStatus[0] = 0xE7;  /* packet order flag = 1, seg length id = '00' */
 
     /* Execute test */
-    actual = TMTF_SetSyncFlag(testFramePtr, FALSE);
+    actual = TMTF_SetSyncFlag(testFramePtr, false);
 
     /* Verify results */
     UtAssert_True(actual == expected, "return value == expected");
@@ -706,7 +706,7 @@ void Test_TMTF_SetSyncFlag_False_PoFlgOff(void)
     testFramePtr->DataFieldStatus[0] = 0xDF;  /* packet order flag = 0, seg length id = '11' */
 
     /* Execute test */
-    actual = TMTF_SetSyncFlag(testFramePtr, FALSE);
+    actual = TMTF_SetSyncFlag(testFramePtr, false);
 
     /* Verify results */
     UtAssert_True(actual == expected, "return value == expected");
@@ -728,7 +728,7 @@ void Test_TMTF_SetPacketOrderFlag_NullPtr(void)
     /* Setup inputs */
 
     /* Execute test */
-    actual = TMTF_SetPacketOrderFlag(NULL, TRUE);
+    actual = TMTF_SetPacketOrderFlag(NULL, true);
 
     /* Verify results */
     UtAssert_True(actual == expected, "return value == expected");
@@ -744,7 +744,7 @@ void Test_TMTF_SetPacketOrderFlag_True(void)
     testFramePtr->DataFieldStatus[0] = 0x00;
 
     /* Execute test */
-    actual = TMTF_SetPacketOrderFlag(testFramePtr, TRUE);
+    actual = TMTF_SetPacketOrderFlag(testFramePtr, true);
 
     /* Verify results */
     UtAssert_True(actual == expected, "return value == expected");
@@ -761,7 +761,7 @@ void Test_TMTF_SetPacketOrderFlag_False(void)
     testFramePtr->DataFieldStatus[0] = 0xFF;
 
     /* Execute test */
-    actual = TMTF_SetPacketOrderFlag(testFramePtr, FALSE);
+    actual = TMTF_SetPacketOrderFlag(testFramePtr, false);
 
     /* Verify results */
     UtAssert_True(actual == expected, "return value == expected");
@@ -783,7 +783,7 @@ void Test_TMTF_SetSegLengthId_NullPtr(void)
     /* Setup inputs */
 
     /* Execute test */
-    actual = TMTF_SetSegLengthId(NULL, TRUE);
+    actual = TMTF_SetSegLengthId(NULL, true);
 
     /* Verify results */
     UtAssert_True(actual == expected, "return value == expected");
@@ -855,7 +855,7 @@ void Test_TMTF_SetFirstHdrPtr_NullPtr(void)
     /* Setup inputs */
 
     /* Execute test */
-    actual = TMTF_SetFirstHdrPtr(NULL, TRUE);
+    actual = TMTF_SetFirstHdrPtr(NULL, true);
 
     /* Verify results */
     UtAssert_True(actual == expected, "return value == expected");

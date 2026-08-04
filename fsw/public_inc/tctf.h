@@ -25,9 +25,9 @@
 
 #include "io_lib.h"
 
-#define TCTF_FRAME_ERROR_CONTROL_INCLUDED  FALSE  /* Set for each mission. TRUE = each TF
+#define TCTF_FRAME_ERROR_CONTROL_INCLUDED  false  /* Set for each mission. true = each TF
                                                      has a frame error control field,
-                                                     FALSE = otherwise */
+                                                     false = otherwise */
 
 
 /*------------------------------------------------------------------------------
@@ -77,8 +77,8 @@ typedef struct
     uint16  SpacecraftId;          /* Spacecraft ID stored in TC header     */
     uint16  VirtualChannelId;      /* Virtual ID stored in TC header        */
     uint16  MapId;                 /* Map ID stored in Segment Header       */
-    boolean HasSegHdr;             /* Wether a Segment header is present    */
-    boolean HasFrameErrCtl;        /* If frame has err ctrl field           */
+    bool HasSegHdr;             /* Wether a Segment header is present    */
+    bool HasFrameErrCtl;        /* If frame has err ctrl field           */
 } TCTF_ChannelService_t;
 
 
@@ -112,7 +112,7 @@ uint16  TCTF_GetSegHdrMapId(TCTF_Hdr_t *tfPtr);
 uint16  TCTF_GetPayloadLength(TCTF_Hdr_t *tfPtr, TCTF_ChannelService_t *channelService);
 uint16  TCTF_CopyData(uint8 *toBuffer, TCTF_Hdr_t *tfPtr, TCTF_ChannelService_t *channelService);
 
-boolean TCTF_IsValidTf(TCTF_Hdr_t *tfPtr, TCTF_ChannelService_t *channelService);
+bool TCTF_IsValidTf(TCTF_Hdr_t *tfPtr, TCTF_ChannelService_t *channelService);
 
 
 #endif /* _TC_TRANSFER_FRAME_H_ */

@@ -29,15 +29,15 @@ void UDP_SetReturnCode(uint32 Index, int32 RtnVal, uint32 CallCnt)
 }
 
 
-boolean UDP_UseReturnCode(uint32 Index)
+bool UDP_UseReturnCode(uint32 Index)
 {
     if (UDP_ReturnCodeTable[Index].Count > 0) {
         UDP_ReturnCodeTable[Index].Count--;
         if (UDP_ReturnCodeTable[Index].Count == 0)
-            return(TRUE);
+            return(true);
     }
 
-    return(FALSE);
+    return(false);
 }
 
 

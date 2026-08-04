@@ -38,7 +38,7 @@ int32 TC_SYNC_LibInit(void)
 ******************************************************************************/
 int32 TC_SYNC_GetTransferFrame(uint8 *pTfBuff, uint8 *pCltu, 
                                uint16 tfBuffSize, uint16 cltuLength, 
-                               boolean derandomize)
+                               bool derandomize)
 {
     int32 iStatus = TC_SYNC_SUCCESS;
     uint16 tfOffset = 0;
@@ -78,7 +78,7 @@ int32 TC_SYNC_GetTransferFrame(uint8 *pTfBuff, uint8 *pCltu,
     }
     
     /* Derandomize if applicable */
-    if (iStatus > 0 && derandomize == TRUE)
+    if (iStatus > 0 && derandomize == true)
     {
         TC_SYNC_DeRandomizeFrame(&pTfBuff[0], tfOffset);
     }

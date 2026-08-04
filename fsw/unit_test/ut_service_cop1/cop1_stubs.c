@@ -38,15 +38,15 @@ void COP1_SetReturnCode(uint32 Index, int32 RtnVal, uint32 CallCnt)
 }
 
 
-boolean COP1_UseReturnCode(uint32 Index)
+bool COP1_UseReturnCode(uint32 Index)
 {
     if (COP1_ReturnCodeTable[Index].Count > 0) {
         COP1_ReturnCodeTable[Index].Count--;
         if (COP1_ReturnCodeTable[Index].Count == 0)
-            return(TRUE);
+            return(true);
     }
 
-    return(FALSE);
+    return(false);
 }
 
 
@@ -118,14 +118,14 @@ uint16 TCTF_CopyData(uint8 *toBuffer, TCTF_Hdr_t *tfPtr, TCTF_ChannelService_t *
     return 0;
 }
 
-boolean TCTF_IsValidTf(TCTF_Hdr_t *tfPtr, TCTF_ChannelService_t *channelService)
+bool TCTF_IsValidTf(TCTF_Hdr_t *tfPtr, TCTF_ChannelService_t *channelService)
 {
     /* Check for specified return */
     if (COP1_UseReturnCode(COP1_TCTF_ISVALIDTF_INDEX))
     {
-        return (boolean)COP1_ReturnCodeTable[COP1_TCTF_ISVALIDTF_INDEX].Value;
+        return (bool)COP1_ReturnCodeTable[COP1_TCTF_ISVALIDTF_INDEX].Value;
     }
 
-    return FALSE;
+    return false;
 }
 

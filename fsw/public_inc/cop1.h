@@ -67,17 +67,17 @@ uint16  COP1_GetClcwCopEffect(COP1_Clcw_t *clcwPtr);
 
 uint16  COP1_GetClcwVcId(COP1_Clcw_t *clcwPtr);
 
-void    COP1_SetClcwNoRf(COP1_Clcw_t *clcwPtr, boolean value);
-boolean COP1_GetClcwNoRf(COP1_Clcw_t *clcwPtr);
+void    COP1_SetClcwNoRf(COP1_Clcw_t *clcwPtr, bool value);
+bool COP1_GetClcwNoRf(COP1_Clcw_t *clcwPtr);
 
-void    COP1_SetClcwNoBitlock(COP1_Clcw_t *clcwPtr, boolean value);
-boolean COP1_GetClcwNoBitlock(COP1_Clcw_t *clcwPtr);
+void    COP1_SetClcwNoBitlock(COP1_Clcw_t *clcwPtr, bool value);
+bool COP1_GetClcwNoBitlock(COP1_Clcw_t *clcwPtr);
 
-boolean COP1_GetClcwLockout(COP1_Clcw_t *clcwPtr);
+bool COP1_GetClcwLockout(COP1_Clcw_t *clcwPtr);
 
-boolean COP1_GetClcwWait(COP1_Clcw_t *clcwPtr);
+bool COP1_GetClcwWait(COP1_Clcw_t *clcwPtr);
 
-boolean COP1_GetClcwRetransmit(COP1_Clcw_t *clcwPtr);
+bool COP1_GetClcwRetransmit(COP1_Clcw_t *clcwPtr);
 
 uint16  COP1_GetClcwFarmbCtr(COP1_Clcw_t *clcwPtr);
 

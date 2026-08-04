@@ -41,7 +41,7 @@ static int32 IO_TransSelectCheckArgs(IO_TransSelect_t *pSet, int32 fd,
     {
         if (event)
         {
-            CFE_EVS_SendEvent(IO_LIB_TRANS_SELECT_EID, CFE_EVS_ERROR,
+            CFE_EVS_SendEvent(IO_LIB_TRANS_SELECT_EID, CFE_EVS_EventType_ERROR,
                               "IO_TransSelect Error: NULL Set input.");
         }
         return IO_TRANS_SELECT_NULL_SET_ERR;
@@ -51,7 +51,7 @@ static int32 IO_TransSelectCheckArgs(IO_TransSelect_t *pSet, int32 fd,
     {
         if (event)
         {
-            CFE_EVS_SendEvent(IO_LIB_TRANS_SELECT_EID, CFE_EVS_ERROR,
+            CFE_EVS_SendEvent(IO_LIB_TRANS_SELECT_EID, CFE_EVS_EventType_ERROR,
                               "IO_TransSelect Error: Bad FD input.");
         }
         return IO_TRANS_SELECT_BAD_FD_ERR;
@@ -85,7 +85,7 @@ static int32 IO_TransSelectCheckIOArgs(IO_TransSelect_t *pSet,int32 timeoutUSec)
 /** Initialize the set */
 int32 IO_TransSelectClear(IO_TransSelect_t *pSet) 
 {
-    int32 status = IO_TransSelectCheckArgs(pSet, 0, TRUE);
+    int32 status = IO_TransSelectCheckArgs(pSet, 0, true);
     if (status < 0)
     {
         return status;
@@ -102,7 +102,7 @@ int32 IO_TransSelectClear(IO_TransSelect_t *pSet)
 /** Adds the specified fd from the set. */
 int32 IO_TransSelectAddFd(IO_TransSelect_t *pSet, int32 fd) 
 {
-    int32 status = IO_TransSelectCheckArgs(pSet, fd, TRUE);
+    int32 status = IO_TransSelectCheckArgs(pSet, fd, true);
     if (status < 0)
     {
         return status;
@@ -124,7 +124,7 @@ int32 IO_TransSelectRemoveFd(IO_TransSelect_t *pSet, int32 fd)
 {
     uint32 ii = 0;
     
-    int32 status = IO_TransSelectCheckArgs(pSet, fd, TRUE);
+    int32 status = IO_TransSelectCheckArgs(pSet, fd, true);
     if (status < 0)
     {
         return status;
@@ -157,7 +157,7 @@ int32 IO_TransSelectRemoveFd(IO_TransSelect_t *pSet, int32 fd)
 /** Returns 1 (True) if the fd is in the full set. */
 int32 IO_TransSelectFdInFull(IO_TransSelect_t *pSet, int32 fd)
 {
-    int32 check = IO_TransSelectCheckArgs(pSet, fd, FALSE);
+    int32 check = IO_TransSelectCheckArgs(pSet, fd, false);
     if (check < 0)
     {
         return check;
@@ -170,7 +170,7 @@ int32 IO_TransSelectFdInFull(IO_TransSelect_t *pSet, int32 fd)
 /** Returns 1 (True) if the fd is in the active set. */
 int32 IO_TransSelectFdInActive(IO_TransSelect_t *pSet, int32 fd)
 {
-    int32 check = IO_TransSelectCheckArgs(pSet, fd, FALSE);
+    int32 check = IO_TransSelectCheckArgs(pSet, fd, false);
     if (check < 0)
     {
         return check;

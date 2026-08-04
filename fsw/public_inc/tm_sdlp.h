@@ -106,10 +106,10 @@ typedef struct
                                     start of frame                            */
     uint32  mutexId;             /* The mutex ID to protect the TF buffer 
                                     and overflow buffer                       */
-    boolean isFirstHdrPtrSet;    /* Indicates if the TF first header pointer 
+    bool isFirstHdrPtrSet;    /* Indicates if the TF first header pointer 
                                     has been set                              */
-    boolean isReady;             /* Indicates the TF is ready to add data     */
-    boolean isInitialized;       /* Indicates the TF is initialized           */
+    bool isReady;             /* Indicates the TF is ready to add data     */
+    bool isInitialized;       /* Indicates the TF is initialized           */
     TM_SDLP_OverflowInfo_t  overflowInfo;   /* Overflow Info Structure        */
     TM_SDLP_GlobalConfig_t  *globConfig;    /* Pointer to global config       */
     TM_SDLP_ChannelConfig_t *chnlConfig;    /* Pointer to channel config      */
@@ -128,7 +128,7 @@ typedef struct
 *       Initializes an Idle Data Buffer with a repeating pattern sequence. 
 *
 *   \par Assumptions, External Events, and Notes:
-*       - The Idle Packet is of type CFE_SB_Msg_t with a CCSDS Primary Hdr.
+*       - The Idle Packet is of type CFE_MSG_Message_t with a CCSDS Primary Hdr.
 *       - The MID of the Idle Buffer Message is set to a SSP Idle Packet (0x3ff)
 *       - The message has no secondary header.
 *       - User may use the IO_LIB_UTIL_GenPseudoRandomSeq function to generate 
@@ -153,7 +153,7 @@ typedef struct
 *       #TM_SDLP_SetOidFrame
 *       #IO_LIB_UTIL_GenPseudoRandomSeq
 *******************************************************************************/
-int32 TM_SDLP_InitIdlePacket(CFE_SB_Msg_t *pIdlePacket, uint8 *pIdlePattern,
+int32 TM_SDLP_InitIdlePacket(CFE_MSG_Message_t *pIdlePacket, uint8 *pIdlePattern,
                              uint16 bufferLength, uint32 patternBitLength);
 
 /******************************************************************************/
@@ -235,7 +235,7 @@ int32 TM_SDLP_FrameHasData(TM_SDLP_FrameInfo_t *pFrameInfo);
 *       #TM_SDLP_AddData
 *******************************************************************************/
 int32 TM_SDLP_AddPacket(TM_SDLP_FrameInfo_t *pFrameInfo,
-                        CFE_SB_Msg_t *pPacket);
+                        CFE_MSG_Message_t *pPacket);
                            
 
 
@@ -270,7 +270,7 @@ int32 TM_SDLP_AddPacket(TM_SDLP_FrameInfo_t *pFrameInfo,
 *       #TM_SDLP_GenPseudoRandomSeq
 *******************************************************************************/
 int32 TM_SDLP_AddIdlePacket(TM_SDLP_FrameInfo_t *pFrameInfo,
-                            CFE_SB_Msg_t *pIdlePacket);
+                            CFE_MSG_Message_t *pIdlePacket);
 
 
 /******************************************************************************/
@@ -334,7 +334,7 @@ int32 TM_SDLP_StartFrame(TM_SDLP_FrameInfo_t *pFrameInfo);
 *   \par Assumptions, External Events, and Notes:
 *       - The user is responsible for providing an idle buffer with
 *         sufficient randomness.
-*       - The pIdlePacket is of type CFE_SB_Msg_t; Only the user data of 
+*       - The pIdlePacket is of type CFE_MSG_Message_t; Only the user data of 
 *         the message is copied into the TF data field.
 *       - It is recommended that a dedicated VC hold the OID frame.
 *
@@ -347,7 +347,7 @@ int32 TM_SDLP_StartFrame(TM_SDLP_FrameInfo_t *pFrameInfo);
 *   \see 
 *******************************************************************************/
 int32 TM_SDLP_SetOidFrame(TM_SDLP_FrameInfo_t *pFrameInfo,
-                          CFE_SB_Msg_t *pIdlePacket);
+                          CFE_MSG_Message_t *pIdlePacket);
 
 
 

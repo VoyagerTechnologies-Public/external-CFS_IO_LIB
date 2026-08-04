@@ -787,7 +787,7 @@ void Test_TCTF_GetPayloadLength_wSegHdr(void)
     testMsg.Octet[2] = 0x02;
     testMsg.Octet[3] = 0x01;
     TCTF_ChannelService_t testService = testChannelService;
-    testService.HasSegHdr = TRUE;
+    testService.HasSegHdr = true;
 
     /* Execute Test */
     actual = TCTF_GetPayloadLength(&testMsg, &testService);
@@ -807,7 +807,7 @@ void Test_TCTF_GetPayloadLength_wFrmErrCtl(void)
     testMsg.Octet[2] = 0x02;
     testMsg.Octet[3] = 0x01;
     TCTF_ChannelService_t testService = testChannelService;
-    testService.HasFrameErrCtl = TRUE;
+    testService.HasFrameErrCtl = true;
 
     /* Execute Test */
     actual = TCTF_GetPayloadLength(&testMsg, &testService);
@@ -900,7 +900,7 @@ void Test_TCTF_CopyData_MaxData_wSegHdr(void)
     testFromBuf[3] = 0xFF;
     testFromBuf[5] = 0xAA;  /* seg. hdr included for this test, set to unexpected value */
 
-    testChannelService.HasSegHdr = TRUE;
+    testChannelService.HasSegHdr = true;
 
     /* Execute Test */
     actualRetVal = TCTF_CopyData(testToBuf, (TCTF_Hdr_t *)testFromBuf, &testChannelService);
@@ -987,8 +987,8 @@ void Test_TCTF_CopyData_NullService(void)
 /*----------------------------------------------------------------------------*/
 void Test_TCTF_IsValidTF_BadScId(void)
 {
-    boolean expected = FALSE;
-    boolean actual   = TRUE;
+    bool expected = false;
+    bool actual   = true;
 
     /* Setup Inputs */
     TCTF_Hdr_t testMsg = testHdr;
@@ -1005,8 +1005,8 @@ void Test_TCTF_IsValidTF_BadScId(void)
 /*----------------------------------------------------------------------------*/
 void Test_TCTF_IsValidTF_BadPvId(void)
 {
-    boolean expected = FALSE;
-    boolean actual   = TRUE;
+    bool expected = false;
+    bool actual   = true;
 
     /* Setup Inputs */
     TCTF_Hdr_t testMsg = testHdr;
@@ -1023,8 +1023,8 @@ void Test_TCTF_IsValidTF_BadPvId(void)
 /*----------------------------------------------------------------------------*/
 void Test_TCTF_IsValidTF_GoodMcfId(void)
 {
-    boolean expected = TRUE;
-    boolean actual   = FALSE;
+    bool expected = true;
+    bool actual   = false;
 
     /* Setup Inputs */
     TCTF_Hdr_t testMsg = testHdr;
@@ -1040,8 +1040,8 @@ void Test_TCTF_IsValidTF_GoodMcfId(void)
 /*----------------------------------------------------------------------------*/
 void Test_TCTF_IsValidTF_BadVcpId(void)
 {
-    boolean expected = FALSE;
-    boolean actual   = TRUE;
+    bool expected = false;
+    bool actual   = true;
 
     /* Setup Inputs */
     TCTF_Hdr_t testMsg = testHdr;
@@ -1059,8 +1059,8 @@ void Test_TCTF_IsValidTF_BadVcpId(void)
 /*----------------------------------------------------------------------------*/
 void Test_TCTF_IsValidTF_GoodVcpId(void)
 {
-    boolean expected = TRUE;
-    boolean actual   = FALSE;
+    bool expected = true;
+    bool actual   = false;
 
     /* Setup Inputs */
     TCTF_Hdr_t testMsg = testHdr;
@@ -1078,8 +1078,8 @@ void Test_TCTF_IsValidTF_GoodVcpId(void)
 /*----------------------------------------------------------------------------*/
 void Test_TCTF_IsValidTF_BadVcaId(void)
 {
-    boolean expected = FALSE;
-    boolean actual   = TRUE;
+    bool expected = false;
+    bool actual   = true;
 
     /* Setup Inputs */
     TCTF_Hdr_t testMsg = testHdr;
@@ -1097,8 +1097,8 @@ void Test_TCTF_IsValidTF_BadVcaId(void)
 /*----------------------------------------------------------------------------*/
 void Test_TCTF_IsValidTF_GoodVcaId(void)
 {
-    boolean expected = TRUE;
-    boolean actual   = FALSE;
+    bool expected = true;
+    bool actual   = false;
 
     /* Setup Inputs */
     TCTF_Hdr_t testMsg = testHdr;
@@ -1116,8 +1116,8 @@ void Test_TCTF_IsValidTF_GoodVcaId(void)
 /*----------------------------------------------------------------------------*/
 void Test_TCTF_IsValidTF_BadVcfId(void)
 {
-    boolean expected = FALSE;
-    boolean actual   = TRUE;
+    bool expected = false;
+    bool actual   = true;
 
     /* Setup Inputs */
     TCTF_Hdr_t testMsg = testHdr;
@@ -1135,8 +1135,8 @@ void Test_TCTF_IsValidTF_BadVcfId(void)
 /*----------------------------------------------------------------------------*/
 void Test_TCTF_IsValidTF_GoodVcfId(void)
 {
-    boolean expected = TRUE;
-    boolean actual   = FALSE;
+    bool expected = true;
+    bool actual   = false;
 
     /* Setup Inputs */
     TCTF_Hdr_t testMsg = testHdr;
@@ -1155,8 +1155,8 @@ void Test_TCTF_IsValidTF_GoodVcfId(void)
 /*----------------------------------------------------------------------------*/
 void Test_TCTF_IsValidTF_BadMappId(void)
 {
-    boolean expected = FALSE;
-    boolean actual   = TRUE;
+    bool expected = false;
+    bool actual   = true;
 
     /* Setup Inputs */
     TCTF_Hdr_t testMsg = testHdr;
@@ -1177,8 +1177,8 @@ void Test_TCTF_IsValidTF_BadMappId(void)
 /*----------------------------------------------------------------------------*/
 void Test_TCTF_IsValidTF_GoodMappId(void)
 {
-    boolean expected = TRUE;
-    boolean actual   = FALSE;
+    bool expected = true;
+    bool actual   = false;
 
     /* Setup Inputs */
     TCTF_Hdr_t testMsg = testHdr;
@@ -1199,8 +1199,8 @@ void Test_TCTF_IsValidTF_GoodMappId(void)
 /*----------------------------------------------------------------------------*/
 void Test_TCTF_IsValidTF_BadMapaId(void)
 {
-    boolean expected = FALSE;
-    boolean actual   = TRUE;
+    bool expected = false;
+    bool actual   = true;
 
     /* Setup Inputs */
     TCTF_Hdr_t testMsg = testHdr;
@@ -1221,8 +1221,8 @@ void Test_TCTF_IsValidTF_BadMapaId(void)
 /*----------------------------------------------------------------------------*/
 void Test_TCTF_IsValidTF_GoodMapaId(void)
 {
-    boolean expected = TRUE;
-    boolean actual   = FALSE;
+    bool expected = true;
+    bool actual   = false;
 
     /* Setup Inputs */
     TCTF_Hdr_t testMsg = testHdr;
@@ -1243,8 +1243,8 @@ void Test_TCTF_IsValidTF_GoodMapaId(void)
 /*----------------------------------------------------------------------------*/
 void Test_TCTF_IsValidTF_Bypass0_CtlCmd1(void)
 {
-    boolean expected = FALSE;
-    boolean actual   = TRUE;
+    bool expected = false;
+    bool actual   = true;
 
     /* Setup Inputs */
     TCTF_Hdr_t testMsg = testHdr;
@@ -1261,8 +1261,8 @@ void Test_TCTF_IsValidTF_Bypass0_CtlCmd1(void)
 /*----------------------------------------------------------------------------*/
 void Test_TCTF_IsValidTF_Bypass1_CtlCmd1(void)
 {
-    boolean expected = TRUE;
-    boolean actual   = FALSE;
+    bool expected = true;
+    bool actual   = false;
 
     /* Setup Inputs */
     TCTF_Hdr_t testMsg = testHdr;
@@ -1279,8 +1279,8 @@ void Test_TCTF_IsValidTF_Bypass1_CtlCmd1(void)
 /*----------------------------------------------------------------------------*/
 void Test_TCTF_IsValidTF_Bypass1_CtlCmd0(void)
 {
-    boolean expected = TRUE;
-    boolean actual   = FALSE;
+    bool expected = true;
+    bool actual   = false;
 
     /* Setup Inputs */
     TCTF_Hdr_t testMsg = testHdr;
@@ -1297,8 +1297,8 @@ void Test_TCTF_IsValidTF_Bypass1_CtlCmd0(void)
 /*----------------------------------------------------------------------------*/
 void Test_TCTF_IsValidTF_NullTfPtr(void)
 {
-    boolean expected = FALSE;
-    boolean actual   = TRUE;
+    bool expected = false;
+    bool actual   = true;
 
     /* Setup Inputs */
 
@@ -1312,8 +1312,8 @@ void Test_TCTF_IsValidTF_NullTfPtr(void)
 /*----------------------------------------------------------------------------*/
 void Test_TCTF_IsValidTF_NullCsPtr(void)
 {
-    boolean expected = FALSE;
-    boolean actual   = TRUE;
+    bool expected = false;
+    bool actual   = true;
 
     /* Setup Inputs */
     TCTF_Hdr_t *testMsg = &testHdr;

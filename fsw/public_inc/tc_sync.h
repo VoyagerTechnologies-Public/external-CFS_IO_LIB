@@ -90,7 +90,7 @@ int32 TC_SYNC_LibInit(void);
 *     - The input is a full Communication Link Transfer Unit (CLTU)
 *     - Any error check / detection should be done prior to calling this fnct.
 *     - The transfer frame within the CLTU may have been randomized. Use
-*       derandomize = TRUE for output transfer frame to be de-randomized.
+*       derandomize = true for output transfer frame to be de-randomized.
 *     - The size of the transfer frame buffer must be able to hold full TF.
 *     - The CLTU must hold both a CLTU start and tail sequence.
 *     - The parity byte within the CLTU code blocks are ignored.
@@ -116,7 +116,7 @@ int32 TC_SYNC_LibInit(void);
 *******************************************************************************/
 int32 TC_SYNC_GetTransferFrame(uint8 *pTfBuff, uint8 *pCltu, 
                                uint16 tfBuffSize, uint16 cltuLength, 
-                               boolean derandomize);
+                               bool derandomize);
 
 
 /******************************************************************************/
