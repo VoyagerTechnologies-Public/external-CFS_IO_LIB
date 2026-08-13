@@ -107,7 +107,7 @@ int32 TM_SYNC_LibInit(void);
 *       #TM_SYNC_PseudoRandomize
 *******************************************************************************/
 int32 TM_SYNC_Synchronize(uint8 *pBuff, char *asmStr, uint8 asmSize, 
-                          uint16 frameSize, boolean randomize);
+                          uint16 frameSize, bool randomize);
 
 
 

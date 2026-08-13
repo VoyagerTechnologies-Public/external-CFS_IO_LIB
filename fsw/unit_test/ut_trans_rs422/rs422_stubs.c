@@ -35,15 +35,15 @@ void RS422_SetReturnCode(uint32 Index, int32 RtnVal, uint32 CallCnt)
 }
 
 
-boolean RS422_UseReturnCode(uint32 Index)
+bool RS422_UseReturnCode(uint32 Index)
 {
     if (RS422_ReturnCodeTable[Index].Count > 0) {
         RS422_ReturnCodeTable[Index].Count--;
         if (RS422_ReturnCodeTable[Index].Count == 0)
-            return(TRUE);
+            return(true);
     }
 
-    return(FALSE);
+    return(false);
 }
 
 //int open(const char *path, int oflags)

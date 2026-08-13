@@ -49,7 +49,7 @@ uint8 dataPacket[200];
 TM_SDLP_FrameInfo_t frameInfo;
 TM_SDLP_GlobalConfig_t globConfig;
 TM_SDLP_ChannelConfig_t chnlConfig;
-CFE_SB_Msg_t *idlePacket = (CFE_SB_Msg_t *) idleBuff;
+CFE_MSG_Message_t *idlePacket = (CFE_MSG_Message_t *) idleBuff;
 uint8 mcFrameCnt;
 
 
@@ -85,13 +85,13 @@ void Test_TM_SDLP_InitIdlePacket_Error(void)
     UtAssert_True(actual == expected, "return value == expected");
     
     /* Execute test */
-    actual = TM_SDLP_InitIdlePacket((CFE_SB_Msg_t *) idleBuff, NULL, 100, 255);
+    actual = TM_SDLP_InitIdlePacket((CFE_MSG_Message_t *) idleBuff, NULL, 100, 255);
 
     /* Verify results */
     UtAssert_True(actual == expected, "return value == expected");
     
     /* Execute test */
-    actual = TM_SDLP_InitIdlePacket((CFE_SB_Msg_t *) idleBuff, idlePattern, 100, 0);
+    actual = TM_SDLP_InitIdlePacket((CFE_MSG_Message_t *) idleBuff, idlePattern, 100, 0);
     
     /* Verify results */
     expected = TM_SDLP_INVALID_LENGTH;
@@ -357,9 +357,9 @@ void Test_TM_SDLP_AddPacket_NotInit(void)
     int32 expected = TM_SDLP_FRAME_NOT_INIT;
     int32 actual   = 99;
 
-    CFE_SB_InitMsg((CFE_SB_Msg_t *) dataPacket, 0x0801, 55, TRUE);
+    CFE_MSG_Init((CFE_MSG_Message_t *) dataPacket,  0x0801,  55);
 
-    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_SB_Msg_t *) dataPacket);
+    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_MSG_Message_t *) dataPacket);
     UtAssert_True(actual == expected, "return value == expected");
 }
 
@@ -373,9 +373,9 @@ void Test_TM_SDLP_AddPacket_NotReady(void)
     chnlConfig.overflowSize = 200;
     actual = TM_SDLP_InitChannel(&frameInfo, tframe, overflowBuff, 
                                  &globConfig, &chnlConfig);
-    CFE_SB_InitMsg((CFE_SB_Msg_t *) dataPacket, 0x0801, 55, TRUE);
+    CFE_MSG_Init((CFE_MSG_Message_t *) dataPacket,  0x0801,  55);
 
-    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_SB_Msg_t *) dataPacket);
+    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_MSG_Message_t *) dataPacket);
     UtAssert_True(actual == expected, "return value == expected");
 }
 
@@ -389,25 +389,25 @@ void Test_TM_SDLP_AddPacket(void)
     actual = TM_SDLP_InitChannel(&frameInfo, tframe, overflowBuff, 
                                  &globConfig, &chnlConfig);
     /* Force as ready. Normally done in StartFrame */
-    frameInfo.isReady = TRUE;
+    frameInfo.isReady = true;
     UtAssert_True(actual == expected, "properly initialized");
 
-    CFE_SB_InitMsg((CFE_SB_Msg_t *) dataPacket, 0x0801, 55, TRUE);
+    CFE_MSG_Init((CFE_MSG_Message_t *) dataPacket,  0x0801,  55);
 
     expected = 94 - 55;
-    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_SB_Msg_t *) dataPacket);
+    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_MSG_Message_t *) dataPacket);
     UtAssert_True(actual == expected, "One Packet Added");
 
     expected = 0;
-    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_SB_Msg_t *) dataPacket);
+    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_MSG_Message_t *) dataPacket);
     UtAssert_True(actual == expected, "Packet to overflow");
     UtAssert_True(frameInfo.overflowInfo.partialOctets == 55 - 39, "Overflow partialOctets check");
     
     expected = TM_SDLP_OVERFLOW_FULL;
-    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_SB_Msg_t *) dataPacket);
-    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_SB_Msg_t *) dataPacket);
-    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_SB_Msg_t *) dataPacket);
-    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_SB_Msg_t *) dataPacket);
+    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_MSG_Message_t *) dataPacket);
+    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_MSG_Message_t *) dataPacket);
+    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_MSG_Message_t *) dataPacket);
+    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_MSG_Message_t *) dataPacket);
     UtAssert_True(actual == expected, "Overflow Full");
 }
 
@@ -461,11 +461,11 @@ void Test_TM_SDLP_AddIdlePacket_BadMid(void)
     chnlConfig.overflowSize = 10;
     TM_SDLP_InitChannel(&frameInfo, tframe, overflowBuff, 
                         &globConfig, &chnlConfig);
-    frameInfo.isReady = TRUE;
+    frameInfo.isReady = true;
     
-    CFE_SB_InitMsg((CFE_SB_Msg_t *) dataPacket, 0x0901, 55, TRUE);
+    CFE_MSG_Init((CFE_MSG_Message_t *) dataPacket,  0x0901,  55);
 
-    actual = TM_SDLP_AddIdlePacket(&frameInfo, (CFE_SB_Msg_t *) dataPacket);
+    actual = TM_SDLP_AddIdlePacket(&frameInfo, (CFE_MSG_Message_t *) dataPacket);
     UtAssert_True(actual == expected, "return value == expected");
 }
 
@@ -479,10 +479,10 @@ void Test_TM_SDLP_AddIdlePacket_Overflow(void)
     actual = TM_SDLP_InitChannel(&frameInfo, tframe, overflowBuff, 
                                  &globConfig, &chnlConfig);
     /* Force as ready. Normally done in StartFrame */
-    frameInfo.isReady = TRUE;
+    frameInfo.isReady = true;
 
-    CFE_SB_InitMsg((CFE_SB_Msg_t *) dataPacket, 0x0801, 90, TRUE);
-    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_SB_Msg_t *) dataPacket);
+    CFE_MSG_Init((CFE_MSG_Message_t *) dataPacket,  0x0801,  90);
+    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_MSG_Message_t *) dataPacket);
     expected = 4;
     UtAssert_True(actual == expected, "properly initialized");
     
@@ -509,7 +509,7 @@ void Test_TM_SDLP_AddIdlePacket(void)
     actual = TM_SDLP_InitChannel(&frameInfo, tframe, overflowBuff, 
                                  &globConfig, &chnlConfig);
     /* Force as ready. Normally done in StartFrame */
-    frameInfo.isReady = TRUE;
+    frameInfo.isReady = true;
     UtAssert_True(actual == expected, "properly initialized");
     
     expected = 0;
@@ -547,7 +547,7 @@ void Test_TM_SDLP_AddVcaData_NotInit(void)
     int32 expected = TM_SDLP_FRAME_NOT_INIT;
     int32 actual   = 99;
 
-    CFE_SB_InitMsg((CFE_SB_Msg_t *) dataPacket, 0x0801, 55, TRUE);
+    CFE_MSG_Init((CFE_MSG_Message_t *) dataPacket,  0x0801,  55);
 
     actual = TM_SDLP_AddVcaData(&frameInfo, (uint8 *) dataPacket, 55);
     UtAssert_True(actual == expected, "return value == expected");
@@ -564,9 +564,9 @@ void Test_TM_SDLP_AddVcaData_TooLarge(void)
     actual = TM_SDLP_InitChannel(&frameInfo, tframe, overflowBuff, 
                                  &globConfig, &chnlConfig);
     /* Force as ready. Normally done in StartFrame */
-    frameInfo.isReady = TRUE;
+    frameInfo.isReady = true;
     
-    CFE_SB_InitMsg((CFE_SB_Msg_t *) dataPacket, 0x0801, 200, TRUE);
+    CFE_MSG_Init((CFE_MSG_Message_t *) dataPacket,  0x0801,  200);
     actual = TM_SDLP_AddVcaData(&frameInfo, (uint8 *) dataPacket, 200);
     UtAssert_True(actual == expected, "Data too large");
 }
@@ -583,15 +583,15 @@ void Test_TM_SDLP_AddVcaData(void)
     actual = TM_SDLP_InitChannel(&frameInfo, tframe, overflowBuff, 
                                  &globConfig, &chnlConfig);
     /* Force as ready. Normally done in StartFrame */
-    frameInfo.isReady = TRUE;
+    frameInfo.isReady = true;
     UtAssert_True(actual == expected, "properly initialized");
     
-    CFE_SB_InitMsg((CFE_SB_Msg_t *) dataPacket, 0x0801, 55, TRUE);
+    CFE_MSG_Init((CFE_MSG_Message_t *) dataPacket,  0x0801,  55);
     
     expected = 94 - 55;
     actual = TM_SDLP_AddVcaData(&frameInfo, (uint8 *) dataPacket, 55);
     UtAssert_True(actual == expected, "55-byte Data added");
-    UtAssert_True(frameInfo.isFirstHdrPtrSet == FALSE, "First hdr pointer not set check");
+    UtAssert_True(frameInfo.isFirstHdrPtrSet == false, "First hdr pointer not set check");
 }
 
 
@@ -633,7 +633,7 @@ void Test_TM_SDLP_StartFrame_EmptyOverflow(void)
     expected = 0;
     actual = TM_SDLP_StartFrame(&frameInfo);
     UtAssert_True(actual == expected, "return value == expected");
-    UtAssert_True(frameInfo.isReady == TRUE, "IsReady is TRUE.");
+    UtAssert_True(frameInfo.isReady == true, "IsReady is true.");
     UtAssert_True(frameInfo.freeOctets == 14, "Is empty check.");
 
     expected = TM_SDLP_SUCCESS;
@@ -656,7 +656,7 @@ void Test_TM_SDLP_StartFrame_WithOverflow(void)
     expected = 20; 
     actual = TM_SDLP_StartFrame(&frameInfo);
     UtAssert_True(actual == expected, "return value == expected");
-    UtAssert_True(frameInfo.isReady == TRUE, "IsReady is TRUE.");
+    UtAssert_True(frameInfo.isReady == true, "IsReady is true.");
     
     
 
@@ -709,8 +709,8 @@ void Test_TM_SDLP_SetOidFrame_NotEmpty(void)
                                  &globConfig, &chnlConfig);
     TM_SDLP_StartFrame(&frameInfo); 
 
-    CFE_SB_InitMsg((CFE_SB_Msg_t *) dataPacket, 0x0801, 10, TRUE);
-    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_SB_Msg_t *) dataPacket);
+    CFE_MSG_Init((CFE_MSG_Message_t *) dataPacket,  0x0801,  10);
+    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_MSG_Message_t *) dataPacket);
     UtAssert_True(actual == 4, "Packet Added");
     
     expected = TM_SDLP_ERROR;
@@ -773,7 +773,7 @@ void Test_TM_SDLP_CompleteFrame_NullOcf(void)
 
     globConfig.frameLength = 100;
     chnlConfig.overflowSize = 200;
-    chnlConfig.ocfFlag = TRUE;
+    chnlConfig.ocfFlag = true;
     actual = TM_SDLP_InitChannel(&frameInfo, tframe, overflowBuff, 
                                  &globConfig, &chnlConfig);
     
@@ -790,7 +790,7 @@ void Test_TM_SDLP_CompleteFrame_WithOcf(void)
 
     globConfig.frameLength = 100;
     chnlConfig.overflowSize = 200;
-    chnlConfig.ocfFlag = TRUE;
+    chnlConfig.ocfFlag = true;
     actual = TM_SDLP_InitChannel(&frameInfo, tframe, overflowBuff, 
                                  &globConfig, &chnlConfig);
     
@@ -805,7 +805,7 @@ void Test_TM_SDLP_CompleteFrame_WithErrCtrl(void)
     int32 actual;
 
     globConfig.frameLength = 100;
-    globConfig.hasErrCtrl = TRUE;
+    globConfig.hasErrCtrl = true;
     chnlConfig.overflowSize = 200;
     actual = TM_SDLP_InitChannel(&frameInfo, tframe, overflowBuff, 
                                  &globConfig, &chnlConfig);
@@ -827,7 +827,7 @@ void Test_TM_SDLP_CompleteFrame(void)
     
     actual = TM_SDLP_CompleteFrame(&frameInfo, &mcFrameCnt, NULL);
     UtAssert_True(actual == expected, "return value == expected");
-    UtAssert_True(frameInfo.freeOctets == 94 && frameInfo.isReady == FALSE, 
+    UtAssert_True(frameInfo.freeOctets == 94 && frameInfo.isReady == false, 
                   "Frame Meta reset.");
 }
 
@@ -853,14 +853,14 @@ void Test_TM_SDLP_NominalTest(void)
     actual = TM_SDLP_StartFrame(&frameInfo);
     expected = TM_SDLP_SUCCESS;
     UtAssert_True(actual == expected, "Start frame 1");
-    UtAssert_True(frameInfo.isReady == TRUE, "IsReady is TRUE.");
+    UtAssert_True(frameInfo.isReady == true, "IsReady is true.");
     expected = 30; 
     UtAssert_True(frameInfo.freeOctets == expected, "FreeOctets check.");
     
 
     /* Add small packet */
-    CFE_SB_InitMsg((CFE_SB_Msg_t *) dataPacket, 0x0801, 10, TRUE);
-    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_SB_Msg_t *) dataPacket);
+    CFE_MSG_Init((CFE_MSG_Message_t *) dataPacket,  0x0801,  10);
+    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_MSG_Message_t *) dataPacket);
     expected = 20; 
     UtAssert_True(actual == expected, "Add small packet");
 
@@ -883,8 +883,8 @@ void Test_TM_SDLP_NominalTest(void)
     UtAssert_True(frameInfo.freeOctets == expected, "Start frame 2");
 
     /* Add large packet (10 bytes overflows) */
-    CFE_SB_InitMsg((CFE_SB_Msg_t *) dataPacket, 0x0801, 40, TRUE);
-    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_SB_Msg_t *) dataPacket);
+    CFE_MSG_Init((CFE_MSG_Message_t *) dataPacket,  0x0801,  40);
+    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_MSG_Message_t *) dataPacket);
     expected = 0; 
     UtAssert_True(actual == expected, "Add large packet");
     expected = 70;
@@ -931,11 +931,11 @@ void Test_TM_SDLP_NominalTest(void)
     actual = TM_SDLP_StartFrame(&frameInfo);
     expected = 30;
     UtAssert_True(frameInfo.freeOctets == expected, "Start frame 5");
-    UtAssert_True(frameInfo.isReady == TRUE, "IsReady is TRUE.");
+    UtAssert_True(frameInfo.isReady == true, "IsReady is true.");
 
     /* Add small packet */
-    CFE_SB_InitMsg((CFE_SB_Msg_t *) dataPacket, 0x0801, 26, TRUE);
-    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_SB_Msg_t *) dataPacket);
+    CFE_MSG_Init((CFE_MSG_Message_t *) dataPacket,  0x0801,  26);
+    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_MSG_Message_t *) dataPacket);
     expected = 4; 
     UtAssert_True(actual == expected, "Add packet");
 
@@ -974,8 +974,8 @@ void Test_TM_SDLP_NominalTest(void)
     UtAssert_True(frameInfo.freeOctets == expected, "Start frame 7");
 
     /* Add very large packet (50 bytes overflows) */
-    CFE_SB_InitMsg((CFE_SB_Msg_t *) dataPacket, 0x0801, 80, TRUE);
-    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_SB_Msg_t *) dataPacket);
+    CFE_MSG_Init((CFE_MSG_Message_t *) dataPacket,  0x0801,  80);
+    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_MSG_Message_t *) dataPacket);
     expected = 0; 
     UtAssert_True(actual == expected, "Add large packet");
     expected = 30;
@@ -1009,8 +1009,8 @@ void Test_TM_SDLP_NominalTest(void)
                   "Overflow Buffer data size check.");
     
     /* Add very large packet */
-    CFE_SB_InitMsg((CFE_SB_Msg_t *) dataPacket, 0x0801, 90, TRUE);
-    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_SB_Msg_t *) dataPacket);
+    CFE_MSG_Init((CFE_MSG_Message_t *) dataPacket,  0x0801,  90);
+    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_MSG_Message_t *) dataPacket);
     expected = 0; 
     UtAssert_True(actual == expected, "Add large packet");
     expected = 0;
@@ -1031,8 +1031,8 @@ void Test_TM_SDLP_NominalTest(void)
                   "Overflow Buffer data size check.");
     
     /* Add small packet in overflow */
-    CFE_SB_InitMsg((CFE_SB_Msg_t *) dataPacket, 0x0801, 10, TRUE);
-    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_SB_Msg_t *) dataPacket);
+    CFE_MSG_Init((CFE_MSG_Message_t *) dataPacket,  0x0801,  10);
+    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_MSG_Message_t *) dataPacket);
     expected = 0; 
     UtAssert_True(actual == expected, "Add packet");
     expected = 20;
@@ -1059,14 +1059,14 @@ void Test_TM_SDLP_NominalTest(void)
 
     actual = TM_SDLP_StartFrame(&frameInfo);
     
-    CFE_SB_InitMsg((CFE_SB_Msg_t *) dataPacket, 0x0801, 28, TRUE);
-    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_SB_Msg_t *) dataPacket);
+    CFE_MSG_Init((CFE_MSG_Message_t *) dataPacket,  0x0801,  28);
+    actual = TM_SDLP_AddPacket(&frameInfo, (CFE_MSG_Message_t *) dataPacket);
     
-    CFE_SB_InitMsg((CFE_SB_Msg_t *) dataPacket, 0x0801, 6, TRUE);
+    CFE_MSG_Init((CFE_MSG_Message_t *) dataPacket,  0x0801,  6);
     uint8 ii = 0;
     for (ii = 0; ii < 13; ++ii)
     {
-        actual = TM_SDLP_AddPacket(&frameInfo, (CFE_SB_Msg_t *) dataPacket);
+        actual = TM_SDLP_AddPacket(&frameInfo, (CFE_MSG_Message_t *) dataPacket);
     }           
     actual = TM_SDLP_CompleteFrame(&frameInfo, &mcFrameCnt, NULL);
     expected = 4;

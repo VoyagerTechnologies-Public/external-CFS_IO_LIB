@@ -79,7 +79,7 @@ static const TCTF_ChannelService_t testChannelService =
     1,                  /* spacecraft id */
     1,                  /* virtual channel id */
     1,                  /* map id */
-    TRUE                /* has segment header */
+    true                /* has segment header */
 };
 
 
@@ -479,7 +479,7 @@ void Test_COP1_SetClcwNoRf_False(void)
     test_clcw.Flags = 0xFF;
 
     /* Execute Test */
-    COP1_SetClcwNoRf(&test_clcw, FALSE);
+    COP1_SetClcwNoRf(&test_clcw, false);
 
     /* Verify Outputs */
     UtAssert_True(test_clcw.Flags == 0x7F, "test_clcw.Flags == expected");
@@ -493,7 +493,7 @@ void Test_COP1_SetClcwNoRf_True(void)
     test_clcw.Flags = 0x00;
 
     /* Execute Test */
-    COP1_SetClcwNoRf(&test_clcw, TRUE);
+    COP1_SetClcwNoRf(&test_clcw, true);
 
     /* Verify Outputs */
     UtAssert_True(test_clcw.Flags == 0x80, "test_clcw.Flags == expected");
@@ -506,7 +506,7 @@ void Test_COP1_SetClcwNoRf_NullPtr(void)
     COP1_Clcw_t *test_clcw = NULL;
 
     /* Execute Test */
-    COP1_SetClcwNoRf(test_clcw, TRUE);
+    COP1_SetClcwNoRf(test_clcw, true);
 
     /* Verify Outputs - Nothing to verify, no return values, no I/O values updated.
      * This test simply executes the code to verify it doesn't cause an exception. */
@@ -583,7 +583,7 @@ void Test_COP1_SetClcwNoBitlock_False(void)
     test_clcw.Flags = 0xFF;
 
     /* Execute Test */
-    COP1_SetClcwNoBitlock(&test_clcw, FALSE);
+    COP1_SetClcwNoBitlock(&test_clcw, false);
 
     /* Verify Outputs */
     UtAssert_True(test_clcw.Flags == 0xBF, "test_clcw.Flags == expected");
@@ -597,7 +597,7 @@ void Test_COP1_SetClcwNoBitlock_True(void)
     test_clcw.Flags = 0x00;
 
     /* Execute Test */
-    COP1_SetClcwNoBitlock(&test_clcw, TRUE);
+    COP1_SetClcwNoBitlock(&test_clcw, true);
 
     /* Verify Outputs */
     UtAssert_True(test_clcw.Flags == 0x40, "test_clcw.Flags == expected");
@@ -610,7 +610,7 @@ void Test_COP1_SetClcwNoBitlock_NullPtr(void)
     COP1_Clcw_t *test_clcw = NULL;
 
     /* Execute Test */
-    COP1_SetClcwNoBitlock(test_clcw, TRUE);
+    COP1_SetClcwNoBitlock(test_clcw, true);
 
     /* Verify Outputs - Nothing to verify, no return values, no I/O values updated.
      * This test simply executes the code to verify it doesn't cause an exception. */
@@ -1007,7 +1007,7 @@ void Test_COP1_ProcessFrame_InvalidTf(void)
     /* Setup Inputs */
     TCTF_ChannelService_t channelService = testChannelService;
 
-    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, FALSE, 1);
+    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, false, 1);
 
     /* Execute Test */
     actualRetVal = COP1_ProcessFrame(toBuffer, &test_clcw, (TCTF_Hdr_t *)(&testTf), &channelService);
@@ -1037,7 +1037,7 @@ void Test_COP1_BypassTf_DataFrm(void)
     TCTF_ChannelService_t channelService = testChannelService;
     test_clcw.Flags = 0x00;  /* set FARM-B counter = 0 */
 
-    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, TRUE, 1);
+    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, true, 1);
     COP1_SetReturnCode(COP1_TCTF_GETBYPASSFLG_INDEX, 1, 1);
     COP1_SetReturnCode(COP1_TCTF_GETCTLCMDFLG_INDEX, 0, 1);
     COP1_SetReturnCode(COP1_TCTF_COPYDATA_INDEX, expectedRetVal, 1);
@@ -1062,7 +1062,7 @@ void Test_COP1_BypassTf_Unlock(void)
     test_clcw.Flags = 0x38;  /* set lockout = 1, wait = 1, retran = 1, FARM-B counter = 0 */
     testTf[5]       = 0x00;  /* set control command to "unlock" */
 
-    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, TRUE, 1);
+    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, true, 1);
     COP1_SetReturnCode(COP1_TCTF_GETBYPASSFLG_INDEX, 1, 1);
     COP1_SetReturnCode(COP1_TCTF_GETCTLCMDFLG_INDEX, 1, 1);
     COP1_SetReturnCode(COP1_TCTF_COPYDATA_INDEX, 33, 1);
@@ -1089,7 +1089,7 @@ void Test_COP1_BypassTf_SetVr_Locked(void)
     testTf[6] = 0x00;
     testTf[7] = 0x11;        /* set the commanded V(R) */
 
-    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, TRUE, 1);
+    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, true, 1);
     COP1_SetReturnCode(COP1_TCTF_GETBYPASSFLG_INDEX, 1, 1);
     COP1_SetReturnCode(COP1_TCTF_GETCTLCMDFLG_INDEX, 1, 1);
     COP1_SetReturnCode(COP1_TCTF_COPYDATA_INDEX, 22, 1);
@@ -1117,7 +1117,7 @@ void Test_COP1_BypassTf_SetVr_Unlocked(void)
     testTf[6] = 0x00;
     testTf[7] = 0xAB;        /* set the commanded V(R) */
 
-    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, TRUE, 1);
+    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, true, 1);
     COP1_SetReturnCode(COP1_TCTF_GETBYPASSFLG_INDEX, 1, 1);
     COP1_SetReturnCode(COP1_TCTF_GETCTLCMDFLG_INDEX, 1, 1);
     COP1_SetFunctionHook(COP1_TCTF_COPYDATA_INDEX, TCTF_CopyDataHook);
@@ -1145,7 +1145,7 @@ void Test_COP1_BypassTf_SetVr_MalformedCmd(void)
     testTf[6] = 0x01;        /* bad value - would normally be 0x00 */
     testTf[7] = 0x11;        /* set the commanded V(R) */
 
-    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, TRUE, 1);
+    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, true, 1);
     COP1_SetReturnCode(COP1_TCTF_GETBYPASSFLG_INDEX, 1, 1);
     COP1_SetReturnCode(COP1_TCTF_GETCTLCMDFLG_INDEX, 1, 1);
     COP1_SetReturnCode(COP1_TCTF_COPYDATA_INDEX, 22, 1);
@@ -1172,7 +1172,7 @@ void Test_COP1_BypassTf_UnknownCmd(void)
     test_clcw.Report = 0;    /* zero value to be set */
     testTf[5] = 0x01;        /* set control command to an unknown value */
 
-    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, TRUE, 1);
+    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, true, 1);
     COP1_SetReturnCode(COP1_TCTF_GETBYPASSFLG_INDEX, 1, 1);
     COP1_SetReturnCode(COP1_TCTF_GETCTLCMDFLG_INDEX, 1, 1);
     COP1_SetReturnCode(COP1_TCTF_COPYDATA_INDEX, 999, 1);
@@ -1205,7 +1205,7 @@ void Test_COP1_AcceptTf_Locked(void)
     TCTF_ChannelService_t channelService = testChannelService;
     test_clcw.Flags = 0x20;  /* set lockout flag = 1 */
 
-    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, TRUE, 1);
+    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, true, 1);
     COP1_SetReturnCode(COP1_TCTF_GETBYPASSFLG_INDEX, 0, 1);
 
     /* Execute Test */
@@ -1229,7 +1229,7 @@ void Test_COP1_AcceptTf_GoodSeqNoBuf(void)
     testTf[4]        = 0;    /* set the frame seq. no. and the clcw seq. no. identically */
     test_clcw.Report = 0;
 
-    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, TRUE, 1);
+    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, true, 1);
     COP1_SetReturnCode(COP1_TCTF_GETBYPASSFLG_INDEX, 0, 1);
 
     /* Execute Test */
@@ -1253,7 +1253,7 @@ void Test_COP1_AcceptTf_GoodSeqGoodBuf(void)
     testTf[4]        = 0;    /* set the frame seq. no. and the clcw seq. no. identically */
     test_clcw.Report = 0;
 
-    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, TRUE, 1);
+    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, true, 1);
     COP1_SetReturnCode(COP1_TCTF_GETBYPASSFLG_INDEX, 0, 1);
     COP1_SetReturnCode(COP1_TCTF_COPYDATA_INDEX, expectedRetVal, 1);
 
@@ -1278,7 +1278,7 @@ void Test_COP1_AcceptTf_PosSeqWindow(void)
     testTf[4]        = 1;    /* set the frame seq. no. greater than the clcw seq. no. */
     test_clcw.Report = 0;
 
-    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, TRUE, 1);
+    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, true, 1);
     COP1_SetReturnCode(COP1_TCTF_GETBYPASSFLG_INDEX, 0, 1);
     COP1_SetReturnCode(COP1_TCTF_COPYDATA_INDEX, 44, 1);
 
@@ -1302,7 +1302,7 @@ void Test_COP1_AcceptTf_PosSeqWindowLim(void)
     testTf[4]        = 62;   /* set the frame seq. no. max sliding window greater */
     test_clcw.Report = 0;    /* than the clcw seq. no. */
 
-    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, TRUE, 1);
+    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, true, 1);
     COP1_SetReturnCode(COP1_TCTF_GETBYPASSFLG_INDEX, 0, 1);
     COP1_SetReturnCode(COP1_TCTF_COPYDATA_INDEX, 55, 1);
 
@@ -1326,7 +1326,7 @@ void Test_COP1_AcceptTf_NegSeqWindow(void)
     testTf[4]        = 0;    /* set the frame seq. no. less than the clcw seq. no. */
     test_clcw.Report = 1;
 
-    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, TRUE, 1);
+    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, true, 1);
     COP1_SetReturnCode(COP1_TCTF_GETBYPASSFLG_INDEX, 0, 1);
     COP1_SetReturnCode(COP1_TCTF_COPYDATA_INDEX, 66, 1);
 
@@ -1350,7 +1350,7 @@ void Test_COP1_AcceptTf_NegSeqWindowLim(void)
     testTf[4]        = 193;  /* set the frame seq. no. max sliding window less */
     test_clcw.Report = 0;    /* than the clcw seq. no. */
 
-    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, TRUE, 1);
+    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, true, 1);
     COP1_SetReturnCode(COP1_TCTF_GETBYPASSFLG_INDEX, 0, 1);
     COP1_SetReturnCode(COP1_TCTF_COPYDATA_INDEX, 77, 1);
 
@@ -1374,7 +1374,7 @@ void Test_COP1_AcceptTf_LockoutPos(void)
     testTf[4]        = 64;    /* set the frame seq. no. outside pos. sliding window */
     test_clcw.Report = 0;
 
-    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, TRUE, 1);
+    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, true, 1);
     COP1_SetReturnCode(COP1_TCTF_GETBYPASSFLG_INDEX, 0, 1);
     COP1_SetReturnCode(COP1_TCTF_COPYDATA_INDEX, 88, 1);
 
@@ -1398,7 +1398,7 @@ void Test_COP1_AcceptTf_LockoutNeg(void)
     testTf[4]        = 0;    /* set the frame seq. no. outside neg. sliding window */
     test_clcw.Report = 100;
 
-    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, TRUE, 1);
+    COP1_SetReturnCode(COP1_TCTF_ISVALIDTF_INDEX, true, 1);
     COP1_SetReturnCode(COP1_TCTF_GETBYPASSFLG_INDEX, 0, 1);
     COP1_SetReturnCode(COP1_TCTF_COPYDATA_INDEX, 222, 1);
 

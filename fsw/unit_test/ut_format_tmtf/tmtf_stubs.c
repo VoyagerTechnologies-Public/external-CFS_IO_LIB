@@ -29,14 +29,14 @@ void TMTF_SetReturnCode(uint32 Index, int32 RtnVal, uint32 CallCnt)
 }
 
 
-boolean TMTF_UseReturnCode(uint32 Index)
+bool TMTF_UseReturnCode(uint32 Index)
 {
     if (TMTF_ReturnCodeTable[Index].Count > 0) {
         TMTF_ReturnCodeTable[Index].Count--;
         if (TMTF_ReturnCodeTable[Index].Count == 0)
-            return(TRUE);
+            return(true);
     }
 
-    return(FALSE);
+    return(false);
 }
 

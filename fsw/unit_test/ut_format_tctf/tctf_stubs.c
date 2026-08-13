@@ -29,14 +29,14 @@ void TCTF_SetReturnCode(uint32 Index, int32 RtnVal, uint32 CallCnt)
 }
 
 
-boolean TCTF_UseReturnCode(uint32 Index)
+bool TCTF_UseReturnCode(uint32 Index)
 {
     if (TCTF_ReturnCodeTable[Index].Count > 0) {
         TCTF_ReturnCodeTable[Index].Count--;
         if (TCTF_ReturnCodeTable[Index].Count == 0)
-            return(TRUE);
+            return(true);
     }
 
-    return(FALSE);
+    return(false);
 }
 

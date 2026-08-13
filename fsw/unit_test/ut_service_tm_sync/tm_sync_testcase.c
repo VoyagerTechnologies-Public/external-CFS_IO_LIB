@@ -86,10 +86,10 @@ void Test_TM_SYNC_Synchronize_NullPtr(void)
     
     /* Execute Test */
     int32 expected = TM_SYNC_INVALID_POINTER;
-    int32 actual = TM_SYNC_Synchronize(NULL, TM_SYNC_ASM_STR, TM_SYNC_ASM_SIZE, 96, TRUE);
+    int32 actual = TM_SYNC_Synchronize(NULL, TM_SYNC_ASM_STR, TM_SYNC_ASM_SIZE, 96, true);
     UtAssert_True(actual == expected, "NULL Pointer");
 
-    actual = TM_SYNC_Synchronize(buffer, NULL, TM_SYNC_ASM_SIZE, 96, TRUE);
+    actual = TM_SYNC_Synchronize(buffer, NULL, TM_SYNC_ASM_SIZE, 96, true);
     UtAssert_True(actual == expected, "NULL ASM String");
 }
 
@@ -100,10 +100,10 @@ void Test_TM_SYNC_Synchronize_BadAsm(void)
     
     /* Execute Test */
     int32 expected = TM_SYNC_INVALID_ASM_SIZE;
-    int32 actual = TM_SYNC_Synchronize(buffer, TM_SYNC_ASM_STR, 3, 96, TRUE);
+    int32 actual = TM_SYNC_Synchronize(buffer, TM_SYNC_ASM_STR, 3, 96, true);
     UtAssert_True(actual == expected, "Invalid ASM Size");
 
-    actual = TM_SYNC_Synchronize(buffer, TM_SYNC_ASM_STR, 5, 96, TRUE);
+    actual = TM_SYNC_Synchronize(buffer, TM_SYNC_ASM_STR, 5, 96, true);
     UtAssert_True(actual == expected, "Invalid ASM Size");
 }
 
@@ -119,7 +119,7 @@ void Test_TM_SYNC_Synchronize(void)
 
     /* Execute Test */
     TM_SYNC_LibInit();
-    TM_SYNC_Synchronize(buffer, TM_SYNC_ASM_STR, TM_SYNC_ASM_SIZE, 96, TRUE);
+    TM_SYNC_Synchronize(buffer, TM_SYNC_ASM_STR, TM_SYNC_ASM_SIZE, 96, true);
 
     /* Verify Outputs */
     UtAssert_True(buffer[0] == expAsm[0], "ASM Header byte 0");
@@ -153,7 +153,7 @@ void Test_TM_SYNC_Synchronize_NoRandom(void)
 
     /* Execute Test */
     TM_SYNC_LibInit();
-    TM_SYNC_Synchronize(buffer, TM_SYNC_ASM_STR, TM_SYNC_ASM_SIZE, 96, FALSE);
+    TM_SYNC_Synchronize(buffer, TM_SYNC_ASM_STR, TM_SYNC_ASM_SIZE, 96, false);
 
     /* Verify Outputs */
     UtAssert_True(buffer[0] == expAsm[0], "ASM Header byte 0");

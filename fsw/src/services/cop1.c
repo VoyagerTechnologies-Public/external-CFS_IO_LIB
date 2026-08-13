@@ -29,8 +29,8 @@
  *
  *   -Many of the functions to process transfer frames reuse code from Morpheus
  *
- *   -The use of 'boolean' values for setters/getters assumes the underlying value
- *    for TRUE = 1, and the underlying value for FALSE = 0.  If this were not so,
+ *   -The use of 'bool' values for setters/getters assumes the underlying value
+ *    for true = 1, and the underlying value for false = 0.  If this were not so,
  *    the CLCW flags would not be set or returned with the expected values.
  *
  * History:
@@ -145,7 +145,7 @@ static int32    COP1_AcceptTf(TCTF_Hdr_t *tfPtr, COP1_Clcw_t *clcwPtr, uint8 *to
 static uint16  COP1_GetTfCommand(TCTF_Hdr_t *tfPtr);
 static uint8   COP1_GetTfCommandedVr(TCTF_Hdr_t *tfPtr);
 static uint16  COP1_CheckTfSequence(uint8 seqNum, uint8 expSeqNum);
-static boolean COP1_isInWrappedRange(uint8 lower, uint8 value, uint8 upper);
+static bool COP1_isInWrappedRange(uint8 lower, uint8 value, uint8 upper);
 
 
 
@@ -172,7 +172,7 @@ int32 COP1_InitClcw(COP1_Clcw_t *clcwPtr, uint16 vcId)
 {
     if (clcwPtr == NULL)
     {
-        CFE_EVS_SendEvent(IO_LIB_COP1_EID, CFE_EVS_ERROR,
+        CFE_EVS_SendEvent(IO_LIB_COP1_EID, CFE_EVS_EventType_ERROR,
                           "COP1 Error: NULL clcw input.");
 
         return COP1_BADINPUT_ERR;
@@ -361,7 +361,7 @@ uint16 COP1_GetClcwVcId(COP1_Clcw_t *clcwPtr)
  * Notes:
  *
  */
-void COP1_SetClcwNoRf(COP1_Clcw_t *clcwPtr, boolean value)
+void COP1_SetClcwNoRf(COP1_Clcw_t *clcwPtr, bool value)
 {
     if (clcwPtr == NULL)
     {
@@ -387,7 +387,7 @@ void COP1_SetClcwNoRf(COP1_Clcw_t *clcwPtr, boolean value)
  * Notes:
  *
  */
-boolean COP1_GetClcwNoRf(COP1_Clcw_t *clcwPtr)
+bool COP1_GetClcwNoRf(COP1_Clcw_t *clcwPtr)
 {
     if (clcwPtr == NULL)
     {
@@ -414,7 +414,7 @@ boolean COP1_GetClcwNoRf(COP1_Clcw_t *clcwPtr)
  * Notes:
  *
  */
-void COP1_SetClcwNoBitlock(COP1_Clcw_t *clcwPtr, boolean value)
+void COP1_SetClcwNoBitlock(COP1_Clcw_t *clcwPtr, bool value)
 {
     if (clcwPtr == NULL)
     {
@@ -440,7 +440,7 @@ void COP1_SetClcwNoBitlock(COP1_Clcw_t *clcwPtr, boolean value)
  * Notes:
  *
  */
-boolean COP1_GetClcwNoBitlock(COP1_Clcw_t *clcwPtr)
+bool COP1_GetClcwNoBitlock(COP1_Clcw_t *clcwPtr)
 {
     if (clcwPtr == NULL)
     {
@@ -466,7 +466,7 @@ boolean COP1_GetClcwNoBitlock(COP1_Clcw_t *clcwPtr)
  * Notes:
  *
  */
-boolean COP1_GetClcwLockout(COP1_Clcw_t *clcwPtr)
+bool COP1_GetClcwLockout(COP1_Clcw_t *clcwPtr)
 {
     if (clcwPtr == NULL)
     {
@@ -492,7 +492,7 @@ boolean COP1_GetClcwLockout(COP1_Clcw_t *clcwPtr)
  * Notes:
  *
  */
-boolean COP1_GetClcwWait(COP1_Clcw_t *clcwPtr)
+bool COP1_GetClcwWait(COP1_Clcw_t *clcwPtr)
 {
     if (clcwPtr == NULL)
     {
@@ -518,7 +518,7 @@ boolean COP1_GetClcwWait(COP1_Clcw_t *clcwPtr)
  * Notes:
  *
  */
-boolean COP1_GetClcwRetransmit(COP1_Clcw_t *clcwPtr)
+bool COP1_GetClcwRetransmit(COP1_Clcw_t *clcwPtr)
 {
     if (clcwPtr == NULL)
     {
@@ -608,13 +608,13 @@ int32 COP1_ProcessFrame(uint8* toBuffer, COP1_Clcw_t *clcwPtr, TCTF_Hdr_t *tfPtr
 
     if (tfPtr == NULL || clcwPtr == NULL)
     {
-        CFE_EVS_SendEvent(IO_LIB_COP1_EID, CFE_EVS_ERROR,
+        CFE_EVS_SendEvent(IO_LIB_COP1_EID, CFE_EVS_EventType_ERROR,
                           "COP1 Error: COP1_ProcessFrame() Bad input.");
         return COP1_BADINPUT_ERR;
     }
 
     /* Process frame if this is the correct destination service */
-    if (TRUE == TCTF_IsValidTf(tfPtr, channelService))
+    if (true == TCTF_IsValidTf(tfPtr, channelService))
     {
         if (TCTF_GetBypassFlag(tfPtr))
         {
@@ -629,7 +629,7 @@ int32 COP1_ProcessFrame(uint8* toBuffer, COP1_Clcw_t *clcwPtr, TCTF_Hdr_t *tfPtr
     }
     else
     {
-        CFE_EVS_SendEvent(IO_LIB_COP1_EID, CFE_EVS_INFORMATION,
+        CFE_EVS_SendEvent(IO_LIB_COP1_EID, CFE_EVS_EventType_INFORMATION,
                           "COP1 Info: Received invalid transfer frame.");
         retVal = COP1_INVALID_TF_ERR;
     }
@@ -676,7 +676,7 @@ static int32 COP1_BypassTf(TCTF_Hdr_t *tfPtr, COP1_Clcw_t *clcwPtr, uint8 *toBuf
 
             COP1_INCR_CLCW_FARMB_CTR(*clcwPtr);
 
-            CFE_EVS_SendEvent(IO_LIB_COP1_EID, CFE_EVS_INFORMATION,
+            CFE_EVS_SendEvent(IO_LIB_COP1_EID, CFE_EVS_EventType_INFORMATION,
                               "COP1 Info: Cmd Transfer Frame UNLOCKED.");
         }
         else if (COP1_CMD_SETVR == command)
@@ -688,12 +688,12 @@ static int32 COP1_BypassTf(TCTF_Hdr_t *tfPtr, COP1_Clcw_t *clcwPtr, uint8 *toBuf
                 COP1_WR_CLCW_WAIT_FLG(*clcwPtr, 0);
                 clcwPtr->Report = COP1_GetTfCommandedVr(tfPtr);
 
-                CFE_EVS_SendEvent(IO_LIB_COP1_EID, CFE_EVS_INFORMATION,
+                CFE_EVS_SendEvent(IO_LIB_COP1_EID, CFE_EVS_EventType_INFORMATION,
                                   "COP1 Info: Cmd Transfer Frame counter set (SETVR).");
             }
             else /* Invalid Control Command Frame, discard and do nothing */
             {
-                CFE_EVS_SendEvent(IO_LIB_COP1_EID, CFE_EVS_ERROR,
+                CFE_EVS_SendEvent(IO_LIB_COP1_EID, CFE_EVS_EventType_ERROR,
                                   "COP1 Error: FARM-1 must be unlocked "
                                   "prior to SETVR");
                 retVal = COP1_FARM1_ERR;
@@ -703,7 +703,7 @@ static int32 COP1_BypassTf(TCTF_Hdr_t *tfPtr, COP1_Clcw_t *clcwPtr, uint8 *toBuf
         }
         else /* An unrecognized command */
         {
-            CFE_EVS_SendEvent(IO_LIB_COP1_EID, CFE_EVS_ERROR,
+            CFE_EVS_SendEvent(IO_LIB_COP1_EID, CFE_EVS_EventType_ERROR,
                     "Invalid Bypass Control Command.");
             retVal = COP1_FARM1_ERR;
         }
@@ -782,14 +782,14 @@ static int32 COP1_AcceptTf(TCTF_Hdr_t *tfPtr, COP1_Clcw_t *clcwPtr, uint8 *toBuf
             case COP1_SEQ_POSITIVE:
                 /* Inside the positive part of the sliding window, retransmit expected frame */
                 COP1_WR_CLCW_RETRAN_FLG(*clcwPtr, 1);
-                CFE_EVS_SendEvent(IO_LIB_COP1_EID, CFE_EVS_ERROR,
+                CFE_EVS_SendEvent(IO_LIB_COP1_EID, CFE_EVS_EventType_ERROR,
                                   "COP1 Error: Inside Trans Frame Pos Window Edge");
                 retVal = COP1_FARM1_ERR;
                 break;
 
             case COP1_SEQ_NEGATIVE:
                 /* Inside the negative edge of the sliding window, drop the frame */
-                CFE_EVS_SendEvent(IO_LIB_COP1_EID, CFE_EVS_ERROR,
+                CFE_EVS_SendEvent(IO_LIB_COP1_EID, CFE_EVS_EventType_ERROR,
                                   "COP1 Error: Inside Trans Frame Neg Window Edge");
                 retVal = COP1_FARM1_ERR;
                 break;
@@ -797,7 +797,7 @@ static int32 COP1_AcceptTf(TCTF_Hdr_t *tfPtr, COP1_Clcw_t *clcwPtr, uint8 *toBuf
             case COP1_SEQ_LOCKOUT:
                 /* Outside of the sliding window, enter 'Lockout' state */
                 COP1_WR_CLCW_LOCKOUT_FLG(*clcwPtr, 1);
-                CFE_EVS_SendEvent(IO_LIB_COP1_EID, CFE_EVS_ERROR,
+                CFE_EVS_SendEvent(IO_LIB_COP1_EID, CFE_EVS_EventType_ERROR,
                                   "COP1 Error: Transfer Frame Lockout Mode Entered.");
                 retVal = COP1_FARM1_ERR;
                 break;
@@ -809,7 +809,7 @@ static int32 COP1_AcceptTf(TCTF_Hdr_t *tfPtr, COP1_Clcw_t *clcwPtr, uint8 *toBuf
     else
     {
         /* System is in lockout mode  */
-        CFE_EVS_SendEvent(IO_LIB_COP1_EID, CFE_EVS_ERROR,
+        CFE_EVS_SendEvent(IO_LIB_COP1_EID, CFE_EVS_EventType_ERROR,
                           "COP1 Error: Cmd Transfer Frame Rejected, In Lockout Mode.");
         retVal = COP1_FARM1_ERR;
     }
@@ -950,9 +950,9 @@ static uint16 COP1_CheckTfSequence(uint8 seqNum, uint8 expSeqNum)
  * Notes:
  *
  */
-static boolean COP1_isInWrappedRange(uint8 lower, uint8 value, uint8 upper)
+static bool COP1_isInWrappedRange(uint8 lower, uint8 value, uint8 upper)
 {
-    boolean result = FALSE;
+    bool result = false;
 
     if (upper < lower)
     {

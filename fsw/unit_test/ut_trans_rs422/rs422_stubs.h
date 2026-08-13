@@ -36,6 +36,6 @@ typedef struct
 
 
 void RS422_SetReturnCode(uint32 Index, int32 RtnVal, uint32 CallCnt);
-boolean RS422_UseReturnCode(uint32 Index);
+bool RS422_UseReturnCode(uint32 Index);
 
 #endif

@@ -86,10 +86,10 @@ void Test_TC_SYNC_GetTransferFrame_NullPtr(void)
 {
     /* Execute Test */
     int32 expected = TC_SYNC_INVALID_POINTER;
-    int32 actual = TC_SYNC_GetTransferFrame(NULL, cltuBuffer, 70, 90, FALSE);
+    int32 actual = TC_SYNC_GetTransferFrame(NULL, cltuBuffer, 70, 90, false);
     UtAssert_True(actual == expected, "NULL TF Buffer");
 
-    actual = TC_SYNC_GetTransferFrame(tfBuffer, NULL, 70, 70, FALSE);
+    actual = TC_SYNC_GetTransferFrame(tfBuffer, NULL, 70, 70, false);
     UtAssert_True(actual == expected, "NULL CLTU Buffer");
 }
 
@@ -100,17 +100,17 @@ void Test_TC_SYNC_GetTransferFrame_BadCltu(void)
     cltuBuffer[0] = 0x00;
     cltuBuffer[1] = 0x90; 
     int32 expected = TC_SYNC_INVALID_CLTU;
-    int32 actual = TC_SYNC_GetTransferFrame(tfBuffer, cltuBuffer, 70, 90, FALSE);
+    int32 actual = TC_SYNC_GetTransferFrame(tfBuffer, cltuBuffer, 70, 90, false);
     UtAssert_True(actual == expected, "Bad CLTU Start Sequence");
 
     cltuBuffer[0] = 0xeb;
     cltuBuffer[1] = 0x00;
-    actual = TC_SYNC_GetTransferFrame(tfBuffer, cltuBuffer, 70, 90, FALSE);
+    actual = TC_SYNC_GetTransferFrame(tfBuffer, cltuBuffer, 70, 90, false);
     UtAssert_True(actual == expected, "Bad CLTU Start Sequence");
     
     cltuBuffer[0] = 0xeb;
     cltuBuffer[1] = 0x90; 
-    actual = TC_SYNC_GetTransferFrame(tfBuffer, cltuBuffer, 70, 80, FALSE);
+    actual = TC_SYNC_GetTransferFrame(tfBuffer, cltuBuffer, 70, 80, false);
     UtAssert_True(actual == expected, "No CLTU Tail Sequence");
 }
 
@@ -119,7 +119,7 @@ void Test_TC_SYNC_GetTransferFrame_BadLength(void)
 {
     /* Execute Test */
     int32 expected = TC_SYNC_INVALID_LENGTH;
-    int32 actual = TC_SYNC_GetTransferFrame(tfBuffer, cltuBuffer, 60, 90, FALSE);
+    int32 actual = TC_SYNC_GetTransferFrame(tfBuffer, cltuBuffer, 60, 90, false);
     UtAssert_True(actual == expected, "TF Buffer size to small");
 }
  
@@ -131,7 +131,7 @@ void Test_TC_SYNC_GetTransferFrame(void)
 
     /* Execute Test */
     int32 expected = 70;
-    int32 actual = TC_SYNC_GetTransferFrame(tfBuffer, cltuBuffer, 70, 90, FALSE);
+    int32 actual = TC_SYNC_GetTransferFrame(tfBuffer, cltuBuffer, 70, 90, false);
     UtAssert_True(actual == expected, "TF Buffer Extracted");
     UtAssert_True(tfBuffer[7] == 0xac, "TF byte check");
 }
@@ -145,7 +145,7 @@ void Test_TC_SYNC_GetTransferFrame_DeRandom(void)
 
     /* Execute Test */
     int32 expected = 70;
-    int32 actual = TC_SYNC_GetTransferFrame(tfBuffer, cltuBuffer, 70, 90, TRUE);
+    int32 actual = TC_SYNC_GetTransferFrame(tfBuffer, cltuBuffer, 70, 90, true);
     UtAssert_True(actual == expected, "TF Buffer Extracted");
     UtAssert_True(tfBuffer[32] == 0xfe, "TF Byte check");
 }
