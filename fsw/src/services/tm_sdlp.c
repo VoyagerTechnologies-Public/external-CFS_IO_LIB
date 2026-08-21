@@ -18,6 +18,7 @@
 *******************************************************************************/
 
 #include "tm_sdlp.h"
+#include "crypto.h"
 
 static int32 TM_SDLP_AddData(TM_SDLP_FrameInfo_t *pFrameInfo, uint8 *pData, 
                              uint16 dataLength, bool isPacket);
@@ -103,8 +104,11 @@ int32 TM_SDLP_InitChannel(TM_SDLP_FrameInfo_t *pFrameInfo,
     int32 dataFieldLength;
     uint16 dataFieldOffset;
     uint16 secHdrLength;
+    int32 sdlsSecurityHeaderLength;
+    int32 sdlsSecurityTrailerLength;
     uint16 gvcid = 0;
     char mutName[OS_MAX_API_NAME];
+    SecurityAssociation_t *saPtr = NULL;
     
     if (pGlobalConfig == NULL || pChannelConfig == NULL || pFrameInfo == NULL ||
         pOverflowBuffer == NULL || pTfBuffer == NULL)
@@ -141,7 +145,48 @@ int32 TM_SDLP_InitChannel(TM_SDLP_FrameInfo_t *pFrameInfo,
         dataFieldOffset += secHdrLength + 1;
     }
 
+    /*
+     * Crypto_TM_ApplySecurity() writes the SDLS security header into the
+     * transfer-frame data area in place. Reserve that space before packets
+     * are added so the first packet header is not overwritten. The security
+     * trailer similarly reduces the payload capacity at the end of the frame.
+     */
+    if (sa_if == NULL || sa_if->sa_get_operational_sa_from_gvcid == NULL)
+    {
+        CFE_EVS_SendEvent(IO_LIB_TM_SDLP_EID, CFE_EVS_EventType_ERROR,
+                          "TM_SDLP_InitChannel Error: Security Association interface is not initialized.");
+        iStatus = CRYPTO_LIB_ERR_NO_INIT;
+        goto end_of_function;
+    }
+
+    iStatus = sa_if->sa_get_operational_sa_from_gvcid(0, pGlobalConfig->scId, pChannelConfig->vcId, 0, &saPtr);
+    if (iStatus != CRYPTO_LIB_SUCCESS || saPtr == NULL)
+    {
+        CFE_EVS_SendEvent(IO_LIB_TM_SDLP_EID, CFE_EVS_EventType_ERROR,
+                          "TM_SDLP_InitChannel Error: No operational SA for SCID:%u VCID:%u, status:%d",
+                          (unsigned int)pGlobalConfig->scId, (unsigned int)pChannelConfig->vcId, (int)iStatus);
+        if (iStatus == CRYPTO_LIB_SUCCESS)
+        {
+            iStatus = CRYPTO_LIB_ERR_NULL_SA;
+        }
+        goto end_of_function;
+    }
+
+    sdlsSecurityHeaderLength  = Crypto_Get_Security_Header_Length(saPtr);
+    sdlsSecurityTrailerLength = Crypto_Get_Security_Trailer_Length(saPtr);
+    if (sdlsSecurityHeaderLength < 0 || sdlsSecurityTrailerLength < 0 ||
+        sdlsSecurityHeaderLength > (int32)(UINT16_MAX - dataFieldOffset))
+    {
+        CFE_EVS_SendEvent(IO_LIB_TM_SDLP_EID, CFE_EVS_EventType_ERROR,
+                          "TM_SDLP_InitChannel Error: Invalid SDLS lengths, header:%d trailer:%d",
+                          (int)sdlsSecurityHeaderLength, (int)sdlsSecurityTrailerLength);
+        iStatus = TM_SDLP_INVALID_LENGTH;
+        goto end_of_function;
+    }
+
+    dataFieldOffset += (uint16)sdlsSecurityHeaderLength;
     dataFieldLength -= dataFieldOffset;
+    dataFieldLength -= sdlsSecurityTrailerLength;
 
     if (pChannelConfig->ocfFlag == true)
     {
