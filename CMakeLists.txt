@@ -11,3 +11,7 @@ include_directories(${APPLICATION_PLATFORM_INC_LIST})
 
 # Create the app module
 add_cfe_app(io_lib ${APP_SRC_FILES})
+
+if(ENABLE_UNIT_TESTS)
+  add_subdirectory(unit-test)
+endif()

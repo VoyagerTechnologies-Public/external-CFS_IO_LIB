@@ -47,7 +47,7 @@ int32 IO_LibInit(void)
 
     if (iStatus != CFE_SUCCESS)
     {
-        CFE_ES_WriteToSysLog("IO_Lib Init failed.\n");
+        CFE_ES_WriteToSysLog("IO_Lib Init failed with status 0x%08X.\n", (unsigned int)iStatus);
     }
 
 
@@ -59,16 +59,9 @@ int32 IO_LibInit(void)
         g_IO_LIB_LibData.EventTbl[ii].EventID = ii;
     }
     
-    /* Register the table with CFE */
-    iStatus = CFE_EVS_Register(g_IO_LIB_LibData.EventTbl, IO_LIB_EVT_CNT, 
-                               CFE_EVS_EventFilter_BINARY);
-    if (iStatus != CFE_SUCCESS)
+    if (iStatus == CFE_SUCCESS)
     {
-        CFE_ES_WriteToSysLog("Failed to register with EVS (0x%08X)\n", iStatus);
-    }
-    else
-    {
-        CFE_ES_WriteToSysLog("IO Lib Initialized.  Version %d.%d.%d.%d\n",
+        CFE_ES_WriteToSysLog("IO Lib Initialized. Version %d.%d.%d.%d\n",
                            IO_LIB_MAJOR_VERSION,
                            IO_LIB_MINOR_VERSION, 
                            IO_LIB_REVISION, 
